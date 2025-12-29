@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-   <title>Search Business | Data</title>
+    <title>Local Business Search</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- jQuery -->
@@ -14,22 +14,26 @@
         }
         body{
             font-family: Arial, sans-serif;
-            background:#f4f7fc;
-            padding:30px;
             margin:0;
+            background:#f3f5fa;
+            color:#333;
         }
         .container{
-            background:white;
-            padding:20px;
-            border-radius:8px;
             max-width:1100px;
-            margin:auto;
-            box-shadow:0 2px 10px rgba(0,0,0,0.1);
+            margin:20px auto;
+            padding:20px;
+            background:white;
+            border-radius:10px;
+            box-shadow:0 2px 8px rgba(0,0,0,0.08);
         }
         h1{
-            text-align:center;
             margin-top:0;
+            font-size:24px;
+            text-align:center;
+            color:#2c3e50;
         }
+
+        /* Search form */
         .search-form{
             display:grid;
             grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
@@ -61,31 +65,32 @@
         button:hover{
             background:#2980b9;
         }
-        button:disabled{
-            opacity:0.6;
-            cursor:not-allowed;
+        #searchBtn{
+            width:100%;
         }
+
         #loader{
-            text-align:center;
             display:none;
+            text-align:center;
             margin:10px 0;
+            font-size:14px;
         }
         #error{
-            color:red;
-            text-align:center;
-            margin-top:10px;
+            display:none;
+            color:#e74c3c;
+            margin:10px 0;
+            font-size:14px;
         }
         #resultsInfo{
-            margin-top:15px;
+            margin:10px 0;
             font-size:14px;
             color:#555;
         }
 
-        /* GRID */
+        /* Results grid */
         .grid{
-            margin-top:15px;
             display:grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap:15px;
         }
         .card{
@@ -118,64 +123,85 @@
             color:#34495e;
         }
         .row a{
-            text-decoration:none;
             color:#2980b9;
+            text-decoration:none;
         }
         .row a:hover{
             text-decoration:underline;
         }
 
         .bottom-controls{
-            margin-top:20px;
-            text-align:center;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:15px;
+            gap:10px;
+        }
+        .bottom-controls button{
+            flex:1;
         }
 
         @media (max-width:600px){
-            body{
+            .bottom-controls{
+                flex-direction:column;
+            }
+            .container{
+                margin:10px;
                 padding:15px;
             }
         }
     </style>
 </head>
-
 <body>
 
 <div class="container">
     <h1>Business Category Search</h1>
 
-    <!-- SEARCH FORM -->
     <div class="search-form">
         <div>
             <label>Category</label>
             <select id="category">
-    <option value="">-- Select Category --</option>
-
-    <!-- Existing -->
-    <option value="restaurants">Restaurants</option>
-    <option value="cafes">Cafes / Coffee Shops</option>
-    <option value="plumbers">Plumbers</option>
-    <option value="electricians">Electricians</option>
-    <option value="dentists">Dentists</option>
-    <option value="hotels">Hotels</option>
-    <option value="gyms">Gyms</option>
-    <option value="supermarkets">Supermarkets</option>
-    <option value="hair salons">Hair Salons</option>
-    <option value="car repair">Car Repair</option>
-
-    <!-- 📚 Education Categories -->
-    <option value="schools">Schools</option>
-    <option value="high schools">High Schools</option>
-    <option value="colleges">Colleges</option>
-    <option value="universities">Universities</option>
-    <option value="medical colleges">Medical Colleges</option>
-    <option value="engineering colleges">Engineering Colleges</option>
-    <option value="training institutes">Training Institutes</option>
-</select>
-
+                <option value="">--Select Category--</option>
+                <option value="restaurants">Restaurants</option>
+                <option value="coffee_shops">Coffee Shops</option>
+                <option value="sports_bars">Sports Bars</option>
+                <option value="sports_clubs">Sports Clubs</option>
+                <option value="sports_clubs">Sports Clubs</option>
+                <option value="accounting">Accounting</option>
+                <option value="cpa">Cpa</option>
+                <option value="school">School</option>
+                <option value="university">University</option>
+                <option value="college">College</option>
+                <option value="high_school">High School</option>
+                <option value="middle_school">Middle School</option>
+                <option value="elementary_school">Elementary School</option>
+                <option value="private_school">Private School</option>
+                <option value="public_school">Public School</option>
+                <option value="charter_school">Charter School</option>
+                <option value="magnet_school">Magnet School</option>
+                <option value="special_education_school">Special Education School</option>
+                <option value="alternative_school">Alternative School</option>
+                <option value="virtual_school">Virtual School</option>
+                <option value="online_school">Online School</option>
+                <option value="home_school">Home School</option>
+                <option value="private_school">Private School</option>
+                <option value="tax">Tax Preparation</option>
+                <option value="bookkeeping">Bookkeeping</option>
+                <option value="financial_planning">Financial Planning</option>
+                <option value="insurance">Insurance</option>
+                <option value="legal">Legal</option>
+                <option value="mortgage">Mortgage</option>
+                <option value="real_estate">Real Estate</option>
+                <option value="tax_planning">Tax Planning</option>
+                <option value="tax_services">Tax Services</option>
+                <option value="tax_preparation">Tax Preparation</option>
+                <option value="tax_return">Tax Return</option>
+                <option value="tax_return_preparation">Tax Return Preparation</option>
+            </select>
         </div>
         <div>
-            <label>Location (City / Area)</label>
-            <input id="locationText" placeholder="e.g. Chicago, New York" value="Chicago">
+            <label>Location (city / area)</label>
+            <input id="locationText" placeholder="e.g. Chicago, IL">
         </div>
         <div>
             <label>Latitude (optional)</label>
@@ -190,7 +216,7 @@
             <input id="limit" type="number" min="1" max="50" value="12">
         </div>
         <div style="align-self:end;">
-            <button id="searchBtn" style="width:100%;">Search Businesses</button>
+            <button id="searchBtn">Search Businesses</button>
         </div>
     </div>
 
@@ -198,17 +224,17 @@
     <div id="error"></div>
     <div id="resultsInfo"></div>
 
-    <!-- GRID RESULTS -->
     <div id="resultsGrid" class="grid"></div>
 
-    <!-- LOAD MORE AT BOTTOM -->
     <div class="bottom-controls">
         <button id="loadMoreBtn" style="display:none;">Load More</button>
+        <!-- NEW: Export button -->
+        <button id="exportBtn">Export CSV</button>
     </div>
 </div>
 
 <script>
-    // ⚠ In production, DO NOT expose your real key in client-side code.
+    // Put your real RapidAPI key here
     const RAPID_KEY = "28061cc726mshce4f83d78f16e5bp122ab8jsnff801a9f4c69";
 
     let currentCategory = "";
@@ -216,66 +242,115 @@
     let currentLat = "";
     let currentLng = "";
     let pageSize = 12;
-    let offset = 0;             // used for "Load more"
-    let lastBatchCount = 0;     // how many items we got in last request
+    let offset = 0;
+    let lastBatchCount = 0;
+
+    // Will store ALL businesses loaded for the current search (for export)
+    let allResults = [];
 
     function buildQueryString(category, locationText){
-        if(locationText && locationText.trim() !== ""){
-            return category + " in " + locationText;
+        let q = category || "";
+        if(locationText){
+            if(q){
+                q += " in " + locationText;
+            }else{
+                q = locationText;
+            }
         }
-        return category;
+        return q.trim();
     }
 
-    function renderResults(dataArray, append = false){
+    function renderResults(businesses, append){
         const $grid = $("#resultsGrid");
+
         if(!append){
             $grid.empty();
         }
 
-        if(!dataArray || !dataArray.length){
+        if(!businesses || businesses.length === 0){
             if(!append){
-                $("#resultsInfo").text("No results found for this search.");
+                $("#resultsInfo").text("No results found.");
             }
             return;
         }
 
-        const existingCards = $grid.children().length;
-        const totalSoFar = existingCards + dataArray.length;
-        $("#resultsInfo").text("Loaded " + totalSoFar + " business(es).");
-
-        dataArray.forEach(function(biz){
-            const name = biz.name || "-";
+        businesses.forEach(function(biz){
+            const name = biz.name || "Unnamed Business";
             const type = biz.type || (biz.subtypes && biz.subtypes[0]) || "";
-            const phone = biz.phone_number || "-";
-            const rating = (biz.rating !== undefined && biz.rating !== null) ? biz.rating : "-";
-            const address = biz.full_address || biz.address || "-";
+            const rating = biz.rating !== undefined && biz.rating !== null ? biz.rating : "N/A";
+            const reviews = biz.review_count || biz.reviews || 0;
+            const phone = biz.phone_number || "";
+            const address = biz.full_address || biz.address || "";
             const website = biz.website || "";
-            const emailsFromDetails = biz.emails_and_contacts && biz.emails_and_contacts.emails ? biz.emails_and_contacts.emails : [];
-            const firstEmail = emailsFromDetails.length ? emailsFromDetails[0] : "-";
+            const emailsFromDetails = biz.emails_and_contacts && biz.emails_and_contacts.emails
+                ? biz.emails_and_contacts.emails
+                : [];
+            const firstEmail = emailsFromDetails.length ? emailsFromDetails[0] : "";
 
-            const card = `
-                <div class="card">
-                    <div class="card-title">${name}</div>
-                    ${type ? `<div class="badge">${type}</div>` : ""}
-                    <div class="row"><strong>Rating:</strong> ${rating}</div>
-                    <div class="row"><strong>Phone:</strong> ${phone}</div>
-                    <div class="row"><strong>Email:</strong> ${firstEmail}</div>
-                    <div class="row"><strong>Website:</strong> ${
-                        website ? `<a href="${website}" target="_blank">${website}</a>` : "-"
-                    }</div>
-                    <div class="row"><strong>Address:</strong> ${address}</div>
-                </div>
-            `;
-            $grid.append(card);
+            const isOpenNow = biz.opening_hours && biz.opening_hours.open_now;
+            const openText = (isOpenNow === true) ? "Open now" :
+                             (isOpenNow === false) ? "Closed now" : "";
+
+            const $card = $("<div>").addClass("card");
+
+            const $title = $("<div>").addClass("card-title").text(name);
+            $card.append($title);
+
+            if(type){
+                $card.append($("<div>").addClass("badge").text(type));
+            }
+
+            if(openText){
+                $card.append(
+                    $("<div>").addClass("row").html("<strong>Status:</strong> " + openText)
+                );
+            }
+
+            $card.append(
+                $("<div>").addClass("row").html("<strong>Rating:</strong> " + rating + " (" + reviews + " reviews)")
+            );
+
+            if(phone){
+                $card.append(
+                    $("<div>").addClass("row").html("<strong>Phone:</strong> " + phone)
+                );
+            }
+
+            if(firstEmail){
+                $card.append(
+                    $("<div>").addClass("row").html("<strong>Email:</strong> " + firstEmail)
+                );
+            }
+
+            if(website){
+                const websiteRow = $("<div>").addClass("row");
+                const link = $("<a>")
+                    .attr("href", website)
+                    .attr("target", "_blank")
+                    .text(website);
+                websiteRow.append($("<strong>").text("Website: ")).append(link);
+                $card.append(websiteRow);
+            }
+
+            if(address){
+                $card.append(
+                    $("<div>").addClass("row").html("<strong>Address:</strong> " + address)
+                );
+            }
+
+            $grid.append($card);
         });
+
+        $("#resultsInfo").text("Showing " + allResults.length + " result(s).");
     }
 
-    function fetchBusinesses(isLoadMore = false){
+    function fetchBusinesses(isLoadMore){
         $("#error").text("").hide();
         $("#loader").show();
         $("#loadMoreBtn").prop("disabled", true);
 
         const query = buildQueryString(currentCategory, currentLocationText);
+
         let coordinates = undefined;
         if(currentLat && currentLng){
             coordinates = currentLat + ", " + currentLng;
@@ -284,7 +359,7 @@
         const payload = {
             queries: [ query ],
             limit: pageSize,
-            offset: offset,   // pagination
+            offset: offset,
             region: "us",
             language: "en"
         };
@@ -309,16 +384,21 @@
 
             const businesses = response && response.data ? response.data : [];
             lastBatchCount = businesses.length;
+
+            // Save results for export
+            if(isLoadMore){
+                allResults = allResults.concat(businesses);
+            }else{
+                allResults = businesses.slice();
+            }
+
             renderResults(businesses, isLoadMore);
 
-            // update offset
             offset += businesses.length;
 
-            // show or hide Load More
             if(businesses.length === pageSize){
                 $("#loadMoreBtn").show().prop("disabled", false);
-            } else {
-                // fewer than pageSize => probably no more pages
+            }else{
                 $("#loadMoreBtn").hide();
             }
         })
@@ -349,6 +429,7 @@
         pageSize = limitVal;
         offset = 0;
         lastBatchCount = 0;
+        allResults = [];
 
         $("#resultsGrid").empty();
         $("#resultsInfo").text("");
@@ -357,20 +438,98 @@
         fetchBusinesses(false);
     }
 
-    $("#searchBtn").on("click", startNewSearch);
-
-    // Optionally also trigger search on category change:
-    $("#category").on("change", function(){
-        if($(this).val()){
-            startNewSearch();
+    // EXPORT ALL CURRENT RESULTS TO CSV
+    function exportResultsToCSV(){
+        if(!allResults || allResults.length === 0){
+            alert("No data to export. Please run a search first.");
+            return;
         }
-    });
 
-    $("#loadMoreBtn").on("click", function(){
-        fetchBusinesses(true);
+        const headers = [
+            "Name",
+            "Type",
+            "Rating",
+            "Phone",
+            "Email",
+            "Website",
+            "Address"
+        ];
+
+        const rows = allResults.map(function(biz){
+            const name = biz.name || "-";
+            const type = biz.type || (biz.subtypes && biz.subtypes[0]) || "";
+            const rating = (biz.rating !== undefined && biz.rating !== null) ? biz.rating : "-";
+            const phone = biz.phone_number || "-";
+            const address = biz.full_address || biz.address || "-";
+            const website = biz.website || "";
+            const emailsFromDetails = biz.emails_and_contacts && biz.emails_and_contacts.emails
+                ? biz.emails_and_contacts.emails
+                : [];
+            const firstEmail = emailsFromDetails.length ? emailsFromDetails[0] : "-";
+
+            return [name, type, rating, phone, firstEmail, website, address];
+        });
+
+        function escapeCSV(value){
+            const str = String(value === undefined || value === null ? "" : value);
+            const needsQuotes = /[",\r\n]/.test(str);
+            const escaped = str.replace(/"/g, '""');
+            return needsQuotes ? `"${escaped}"` : escaped;
+        }
+
+        const csvLines = [];
+        csvLines.push(headers.map(escapeCSV).join(","));
+        rows.forEach(function(row){
+            csvLines.push(row.map(escapeCSV).join(","));
+        });
+
+        const csvContent = csvLines.join("\r\n");
+
+        const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const a = document.createElement("a");
+        a.href = url;
+
+        const safeCategory = currentCategory || "businesses";
+        const safeLocation = currentLocationText || "all_locations";
+        a.download = (safeCategory + "_" + safeLocation + ".csv").replace(/\s+/g, "_");
+
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+
+        URL.revokeObjectURL(url);
+    }
+
+    $(document).ready(function(){
+        $("#searchBtn").on("click", function(){
+            startNewSearch();
+        });
+
+        // Enter key triggers search
+        $("#locationText, #lat, #lng, #limit").on("keypress", function(e){
+            if(e.which === 13){
+                startNewSearch();
+            }
+        });
+
+        $("#category").on("change", function(){
+            // Optional: auto-search on category change if location already set
+            // if($(this).val()){
+            //     startNewSearch();
+            // }
+        });
+
+        $("#loadMoreBtn").on("click", function(){
+            fetchBusinesses(true);
+        });
+
+        $("#exportBtn").on("click", function(){
+            exportResultsToCSV();
+        });
     });
 </script>
 
 </body>
 </html>
-
