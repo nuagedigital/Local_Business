@@ -532,3 +532,76 @@
 </body>
 </html>
 
+
+
+
+{% capture details %}
+  {% content_for 'block',
+    type: '_product-details',
+    id: 'product-details',
+    closest.product: closest.product
+  %}
+{% endcapture %}
+Replace it with this 👇
+
+{% capture details %}
+
+  <!-- New Arrival Variant Label -->
+  <div id="variant-new-arrival-label"
+       style="display:none; margin-bottom:10px; font-weight:600;">
+    New Arrival
+  </div>
+
+  <script>
+    window.variantNewArrivalMap = window.variantNewArrivalMap || {};
+    window.variantNewArrivalMap[{{ closest.product.id }}] = {
+      {% for variant in closest.product.variants %}
+        {{ variant.id }}: {{ variant.metafields.custom.new_arrivals.value | default: false | json }}{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    };
+  </script>
+
+  {% content_for 'block',
+    type: '_product-details',
+    id: 'product-details',
+    closest.product: closest.product
+  %}
+
+{% endcapture %}
+
+
+{% stylesheet %}
+
+
+<script>
+(function () {
+
+  var PRODUCT_ID = {{ closest.product.id }};
+  var label = document.getElementById('variant-new-arrival-label');
+
+  function getVariantId() {
+    var params = new URLSearchParams(window.location.search);
+    return params.get('variant');
+  }
+
+  function updateLabel(id) {
+    if (!label) return;
+    var map = window.variantNewArrivalMap[PRODUCT_ID] || {};
+    label.style.display = map[id] ? 'block' : 'none';
+  }
+
+  // initial
+  updateLabel(getVariantId() || {{ closest.product.selected_or_first_available_variant.id }});
+
+  // Horizon variant updates via URL
+  var last = getVariantId();
+  setInterval(function(){
+    var current = getVariantId();
+    if(current !== last){
+      last = current;
+      updateLabel(current);
+    }
+  },300);
+
+})();
+</script>
